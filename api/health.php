@@ -1,27 +1,23 @@
 <?php
-// api/health.php
+// api/health.php - UNTUK SUPABASE
 require_once 'config.php';
 
 $db = new Database();
-$pdo = $db->getConnection();
 
-// Test database connection
 try {
-    $stmt = $pdo->query("SELECT COUNT(*) as employee_count FROM employees");
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Test connection by getting employees count
+    $employees = $db->getEmployees();
     
     sendResponse([
         'success' => true,
-        'message' => 'Hospital Bonus API is running',
-        'database' => 'Connected',
-        'employee_count' => $result['employee_count'],
+        'message' => 'Supabase API is connected',
+        'employees_count' => count($employees),
         'timestamp' => date('Y-m-d H:i:s')
     ]);
 } catch (Exception $e) {
     sendResponse([
         'success' => false,
-        'error' => 'Database connection failed',
-        'message' => $e->getMessage()
+        'error' => 'Supabase connection failed: ' . $e->getMessage()
     ], 500);
 }
 ?>
