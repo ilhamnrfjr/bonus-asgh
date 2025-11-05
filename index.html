@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Andreas Fire Department - Hospital Bonus</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="save-notification" class="save-notification">Data berhasil disimpan!</div>
+    
+    <div class="container">
+        <div class="header">
+            <img src="img/FM.png" alt="SAFD Logo Left" class="header-logo">
+            <div class="header-content">
+                <h1>San Andreas Fire Department</h1>
+                <h2>Hospital Bonus Details</h2>
+            </div>
+            <img src="img/ASGH.png" alt="SAFD Logo Right" class="header-logo">
+        </div>
+        
+        <div class="week-banner">
+            <div>WEEK</div>
+            <div class="week-container">
+                <input type="number" id="week-input" class="week-input" value="1" placeholder="XX">
+            </div>
+        </div>
+        
+        <div class="hospital-name">
+            All Saint's General Hospital
+        </div>
+        
+        <div class="import-section">
+            <h3>Import Data dari Excel</h3>
+            <div class="import-info">
+                <strong>Info:</strong> Data Excel akan difilter dan hanya nama yang sudah terdaftar di sistem yang akan diupdate dengan nilai Bills Income dari Excel.<br>
+                <strong>Note:</strong> Jika setelah import data ada yang kosong, itu berarti personel tersebut tidak mendapatkan bill di week itu, silahkan diisi angka 0 pada input zone.<br>
+                <small style="color: #4caf50;"><strong>✓ Data Anda akan tersimpan otomatis</strong> - perubahan akan disimpan ke database.</small>
+            </div>
+            <div class="import-options">
+                <div class="file-input-container">
+                    <div class="file-input-button">Pilih File Excel</div>
+                    <input type="file" id="excel-file" class="file-input" accept=".xlsx, .xls, .csv">
+                </div>
+                <span id="file-name">Tidak ada file dipilih</span>
+                <button class="import-button" onclick="importExcelData()">Import Data</button>
+                <button class="reset-button" onclick="resetToDefault()">Reset Data</button>
+                <button class="admin-button" onclick="toggleAdminPanel()">Admin Panel</button>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="admin-panel" class="admin-panel">
+            <h3>Admin Panel - Kelola Data Karyawan</h3>
+            
+            <div class="admin-controls">
+                <button class="add-row" onclick="showEmployeeForm()">Tambah Karyawan</button>
+                <button class="save-button" onclick="loadEmployees()">Refresh Data</button>
+            </div>
+            
+            <!-- Form Tambah/Edit Karyawan -->
+            <div id="employee-form" class="employee-form">
+                <h4 id="form-title">Tambah Karyawan Baru</h4>
+                <div class="form-group">
+                    <label for="employee-name">Nama:</label>
+                    <input type="text" id="employee-name" placeholder="Nama lengkap">
+                </div>
+                <div class="form-group">
+                    <label for="employee-rank">Jabatan:</label>
+                    <select id="employee-rank">
+                        <option value="Hospital Executive">Hospital Executive</option>
+                        <option value="Executive Assistant">Executive Assistant</option>
+                        <option value="Medical Director">Medical Director</option>
+                        <option value="Attending Physician">Attending Physician</option>
+                        <option value="Fellow">Fellow</option>
+                        <option value="Senior Resident">Senior Resident</option>
+                        <option value="Resident">Resident</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="save-button" id="save-employee-btn" onclick="saveEmployee()">Simpan</button>
+                    <button class="reset-button" onclick="hideEmployeeForm()">Batal</button>
+                </div>
+            </div>
+            
+            <!-- Daftar Karyawan -->
+            <div id="employee-list" class="employee-list">
+                <!-- Daftar karyawan akan diisi oleh JavaScript -->
+            </div>
+        </div>
+        
+        <div class="spreadsheet">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%">Order</th>
+                        <th style="width: 16%">Name</th>
+                        <th style="width: 13%">Rank</th>
+                        <th style="width: 11%">Absence Status</th>
+                        <th style="width: 16%">Absence Link</th>
+                        <th style="width: 11%">Input Zone</th>
+                        <th style="width: 7%">Bonus</th>
+                        <th style="width: 7%">Penalty</th>
+                        <th style="width: 8%">Conclusion</th>
+                    </tr>
+                </thead>
+                <tbody id="spreadsheet-body">
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+                <tfoot>
+                    <tr class="grand-total">
+                        <td colspan="6" style="text-align: right; font-weight: bold;">Grand Total:</td>
+                        <td id="grand-total-bonus" class="grand-total-value">$0</td>
+                        <td id="grand-total-penalty" class="grand-total-value">$0</td>
+                        <td>-</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="buttons">
+            <button class="add-row" onclick="addRow()">+ Add Row</button>
+            <button class="remove-row" onclick="removeRow()">- Remove Row</button>
+            <button class="save-button" onclick="saveData()">Simpan Data</button>
+            <button class="bbcode-button" onclick="generateBBCode()">Generate BBCode</button>
+        </div>
+
+        <div id="bbcode-section" class="bbcode-section">
+            <h3>BBCode Generator</h3>
+            <textarea id="bbcode-output" class="bbcode-output" readonly></textarea>
+            <button class="copy-button" onclick="copyBBCode()">Copy BBCode</button>
+        </div>
+        
+        <div class="footer">
+            &copy; Jareth Ashford - Ilham
+        </div>
+    </div>
+
+    <!-- Library untuk parsing Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
